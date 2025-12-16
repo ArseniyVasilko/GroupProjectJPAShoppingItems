@@ -3,9 +3,10 @@ package com.example.demo;
 import com.example.demo.DBModel.ShoppingItem;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Service
@@ -30,5 +31,11 @@ public class ServiceClass {
         db.save(new ShoppingItem("Tomatoes (kg)", 40.0f, LocalDate.now()));
         db.save(new ShoppingItem("Butter", 70.0f, LocalDate.now()));
         db.flush();
+    }
+
+    public List<ShoppingItem> getItemsSortedByPrice(){
+        Sort sort = Sort.by(Sort.Order.asc("price"));
+
+        return db.findAll(sort);
     }
 }
